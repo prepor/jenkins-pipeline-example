@@ -1,5 +1,5 @@
 podTemplate(label: 'tmp-builder',
-            containers: [containerTemplate(name: 'go-build', image: 'golang:1.6.3', command: 'cat', ttyEnabled: true),
+            containers: [containerTemplate(name: 'go-build', image: 'golang:1.7.5-alpine', command: 'cat', ttyEnabled: true),
                          containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)],
             volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
                       secretVolume(secretName: 'docker-user-pass', mountPath: '/etc/secrets/docker')]) {
