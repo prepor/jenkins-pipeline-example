@@ -32,7 +32,7 @@ podTemplate(label: 'tmp-builder',
 
     stage("Deploy Application"){
       container('helm') {
-        sh("helm upgrade -i --set image.tag=${tag} --set image.tag=app-${env.BRANCH_NAME}.team.navimize.com tmp-app-${env.BRANCH_NAME} chart/tmp-app")
+        sh("helm upgrade -i --set image.tag=${tag} --set hostName=app-${env.BRANCH_NAME}.team.navimize.com tmp-app-${env.BRANCH_NAME} chart/tmp-app")
       }
     }
   }
