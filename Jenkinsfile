@@ -11,7 +11,7 @@ podTemplate(label: 'tmp-builder',
     stage('Build image') {
       container('docker') {
         env.DOCKER_API_VERSION = "1.23"
-        sh("docker build -t ${imageTag} .")
+        sh("DOCKER_API_VERSION=1.23 docker build -t ${imageTag} .")
         sh("docker push ${imageTag}")
       }
     }
