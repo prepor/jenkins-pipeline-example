@@ -6,13 +6,14 @@ podTemplate(label: 'tmp-builder',
     def appName = 'tmp-app'
     def imageTag = "${project}/${appName}:${env.BRANCH_NAME}.${env.BUILD_NUMBER}"
 
+    def dockerApi = "1.23"
+
     checkout scm
 
     stage('Build image') {
       container('docker') {
-        sh("export DOCKER_API_VERSION=1.23")
-        sh("docker build -t ${imageTag} .")
-        sh("docker push ${imageTag}")
+        sh("DOCKER_API_VERSION=${dockerApi} docker build -t ${imageTag} .")
+        sh("DOCKER_API_VERSION=${dockerApi} docker push ${imageTag}")
       }
     }
 
