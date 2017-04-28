@@ -32,19 +32,8 @@ podTemplate(label: 'tmp-builder',
 
     stage("Deploy Application"){
       container('helm') {
-        sh("helm init")
-        sh("helm upgrade -i --set image.tag=${tag} tmp-app-${env.BRANCH_NAME} chart/tmp-app")
+        sh("helm upgrade -i --set image.tag=${tag} --set image.tag=app-${env.BRANCH_NAME}.team.navimize.com tmp-app-${env.BRANCH_NAME} chart/tmp-app")
       }
     }
-    // Create namespace if it doesn't exist
-    // sh("kubectl get ns ${env.BRANCH_NAME} || kubectl create ns ${env.BRANCH_NAME}")
-    // // Don't use public load balancing for development branches
-    // sh("sed -i.bak 's#LoadBalancer#ClusterIP#' ./k8s/services/frontend.yaml")
-    // sh("sed -i.bak 's#gcr.io/cloud-solutions-images/gceme:1.0.0#${imageTag}#' ./k8s/dev/*.yaml")
-    // sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/services/")
-    // sh("kubectl --namespace=${env.BRANCH_NAME} apply -f k8s/dev/")
-    // echo 'To access your environment run `kubectl proxy`'
-    // echo "Then access your service via http://localhost:8001/api/v1/proxy/namespaces/${env.BRANCH_NAME}/services/${feSvcName}:80/"
-
   }
 }

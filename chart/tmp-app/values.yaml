@@ -8,9 +8,13 @@ image:
   pullPolicy: IfNotPresent
 service:
   name: main
-  type: LoadBalancer
+  type: ClusterIP
   externalPort: 8080
   internalPort: 8080
+hostName: app.team.navimize.com
+ingress:
+  annotations:
+    kubernetes.io/ingress.class: nginx
 resources:
   limits:
     cpu: 100m
