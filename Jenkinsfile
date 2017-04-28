@@ -1,7 +1,7 @@
 podTemplate(label: 'tmp-builder',
             containers: [containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)],
             volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
-                      secretVolume(secretName: 'docker-user-password', mountPath: '/etc/secrets/docker')]) {
+                      secretVolume(secretName: 'docker-user-pass', mountPath: '/etc/secrets/docker')]) {
   node('tmp-builder') {
     def project = 'prepor'
     def appName = 'tmp-app'
