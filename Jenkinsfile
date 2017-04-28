@@ -15,7 +15,7 @@ podTemplate(label: 'tmp-builder',
       container('docker') {
         def user = readFile("/etc/secrets/docker/username.txt")
         def password = readFile("/etc/secrets/docker/password.txt")
-        sh("docker login -u ${user} -p ${password}")
+        sh("DOCKER_API_VERSION=${dockerApi} docker login -u ${user} -p ${password}")
         sh("DOCKER_API_VERSION=${dockerApi} docker build -t ${imageTag} .")
         sh("DOCKER_API_VERSION=${dockerApi} docker push ${imageTag}")
       }
