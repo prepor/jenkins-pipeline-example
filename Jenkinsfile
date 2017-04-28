@@ -32,6 +32,7 @@ podTemplate(label: 'tmp-builder',
 
     stage("Deploy Application"){
       container('helm') {
+        sh("helm init")
         sh("helm upgrade -i --set image.tag=${tag} tmp-app-${env.BRANCH_NAME} chart/tmp-app")
       }
     }
