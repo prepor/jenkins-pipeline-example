@@ -14,7 +14,7 @@ podTemplate(label: 'tmp-builder',
 
     stage('Build') {
       container('go-build') {
-        sh("go build")
+        sh("go build -o tmp-app")
       }
     }
 
