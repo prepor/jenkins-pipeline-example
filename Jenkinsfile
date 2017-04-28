@@ -1,6 +1,7 @@
 podTemplate(label: 'tmp-builder',
             containers: [containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)],
-            volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock')]) {
+            volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
+                      secretVolume(secretName: 'docker-user-password', mountPath: '/etc/secrets/docker')]) {
   node('tmp-builder') {
     def project = 'prepor'
     def appName = 'tmp-app'
@@ -12,6 +13,9 @@ podTemplate(label: 'tmp-builder',
 
     stage('Build image') {
       container('docker') {
+        def user = readFile("/etc/secrets/docker/username.txt")
+        def password = readFile("/etc/secrets/docker/password.txt")
+        sh("docker login -u ${user} -p ${password}")
         sh("DOCKER_API_VERSION=${dockerApi} docker build -t ${imageTag} .")
         sh("DOCKER_API_VERSION=${dockerApi} docker push ${imageTag}")
       }
