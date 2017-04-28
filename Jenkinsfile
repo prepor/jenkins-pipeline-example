@@ -10,7 +10,7 @@ podTemplate(label: 'tmp-builder',
 
     stage('Build image') {
       container('docker') {
-        sh("echo `pwd`")
+        sh("docker version")
         sh("docker build -t ${imageTag} .")
         sh("docker push ${imageTag}")
       }
