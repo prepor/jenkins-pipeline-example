@@ -1,1 +1,5 @@
-FROM golang:1.6.3-onbuild
+FROM gliderlabs/alpine:3.4
+
+ADD tmp-repo /usr/bin/tmp-app
+
+CMD ["/var/lib/tmp-app"]

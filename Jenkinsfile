@@ -1,5 +1,6 @@
 podTemplate(label: 'tmp-builder',
-            containers: [containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)],
+            containers: [containerTemplate(name: 'go-build', image: 'golang:1.6.3', command: 'cat', ttyEnabled: true),
+                         containerTemplate(name: 'docker', image: 'docker', command: 'cat', ttyEnabled: true)],
             volumes: [hostPathVolume(hostPath: '/var/run/docker.sock', mountPath: '/var/run/docker.sock'),
                       secretVolume(secretName: 'docker-user-pass', mountPath: '/etc/secrets/docker')]) {
   node('tmp-builder') {
@@ -10,6 +11,12 @@ podTemplate(label: 'tmp-builder',
     def dockerApi = "1.23"
 
     checkout scm
+
+    stage('Build') {
+      container('go-build') {
+        sh("go build")
+      }
+    }
 
     stage('Build image') {
       container('docker') {
